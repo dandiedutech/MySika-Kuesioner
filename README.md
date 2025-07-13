@@ -7,7 +7,7 @@
 *Automatisasi pengisian kuesioner EDOM & Layanan di portal SIKA dengan cepat dan efisien*
 
 [![Made with Love](https://img.shields.io/badge/Made%20with-❤️-red.svg)](https://instagram.com/dandisubhani_)
-[![Version](https://img.shields.io/badge/Version-1.0.0-blue.svg)](https://github.com/yourusername/mysika)
+[![Version](https://img.shields.io/badge/Version-1.0.0-blue.svg)](https://github.com/dandiedutech/MySika-Kuesioner)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-yellow.svg)](https://chrome.google.com)
 [![Security](https://img.shields.io/badge/Security-100%25%20Safe-brightgreen.svg)](#-keamanan-terjamin)
@@ -75,10 +75,8 @@ Desain clean, intuitive, dan user-friendly dengan UX yang optimal.
 
 ### **Metode 1: Download Langsung**
 
-1. **📁 Download ZIP File**
-   ```
-   https://files.catbox.moe/mu7iw2.zip
-   ```
+1. **📁 Download ZIP File**  
+   Klik tombol **"Download ZIP"** di halaman GitHub repository.
 
 2. **📂 Ekstrak File**  
    Ekstrak file ZIP ke folder yang mudah diakses.
@@ -98,8 +96,8 @@ Desain clean, intuitive, dan user-friendly dengan UX yang optimal.
 ### **Metode 2: Clone Repository**
 
 ```bash
-git clone https://github.com/yourusername/mysika-questionnaire
-cd mysika-questionnaire
+git clone https://github.com/dandiedutech/MySika-Kuesioner
+cd MySika-Kuesioner
 ```
 
 Lalu ikuti langkah 3-6 dari metode 1.
@@ -134,7 +132,7 @@ Lalu ikuti langkah 3-6 dari metode 1.
 |---------|---------|
 | ![Before](https://files.catbox.moe/7s6pam.jpg) | ![After](https://files.catbox.moe/rhha28.jpg) |
 
-*Dari mengisi manual 5 menit → menjadi hanya 15 detik!*
+*Dari mengisi manual 5+ menit → menjadi hanya 15 detik!*
 
 </div>
 
