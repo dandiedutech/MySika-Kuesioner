@@ -1,0 +1,167 @@
+/* --- Import Font --- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* --- Tombol Aksi Mengambang (FAB) --- */
+#mysika-fab {
+    position: fixed;
+    bottom: 30px;
+    right: 50px;
+    width: 64px;
+    height: 64px;
+    background: #0d79d1; /* Warna biru utama SIKA */
+    border-radius: 50%;
+    box-shadow: 0 8px 20px rgba(13, 121, 209, 0.25);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 9998;
+    transition: all 0.3s ease-in-out;
+    border: 2px solid #fff;
+}
+
+#mysika-fab img {
+    width: 36px;
+    height: 36px;
+    filter: brightness(0) invert(1); /* Membuat ikon menjadi putih */
+    transition: transform 0.3s ease;
+}
+
+#mysika-fab:hover {
+    transform: scale(1.1);
+    box-shadow: 0 12px 28px rgba(13, 121, 209, 0.3);
+}
+
+#mysika-fab.mysika-fab-active {
+    transform: rotate(45deg);
+    background: #005f9b; /* Biru lebih gelap saat aktif */
+}
+
+/* --- Panel Kontrol --- */
+#mysika-panel {
+    position: fixed;
+    bottom: 110px;
+    right: 30px;
+    width: 320px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(45, 55, 72, 0.15);
+    z-index: 9999;
+    font-family: 'Inter', sans-serif;
+    color: #2d3748; /* Warna teks gelap */
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform-origin: bottom right;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+}
+
+#mysika-panel.mysika-hidden {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+    pointer-events: none;
+}
+
+.mysika-header {
+    padding: 18px 20px;
+    text-align: center;
+    background: #f7fafc; /* Latar header abu-abu muda */
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.mysika-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a202c;
+}
+
+.mysika-subtitle {
+    font-size: 13px;
+    font-weight: 400;
+    color: #718096;
+}
+
+.mysika-content {
+    padding: 20px;
+}
+
+.mysika-options-label {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 15px;
+    text-align: center;
+    color: #4a5568;
+}
+
+/* --- Opsi Radio --- */
+.mysika-radio-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.mysika-radio-option {
+    flex: 1;
+}
+.mysika-radio-option input[type="radio"] {
+    display: none;
+}
+.mysika-radio-option label {
+    display: block;
+    padding: 10px;
+    border: 1px solid #cbd5e0;
+    border-radius: 10px;
+    background: #edf2f7;
+    color: #4a5568;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    text-align: center;
+    font-size: 10px;
+    font-weight: 600;
+}
+.mysika-radio-option input[type="radio"]:checked + label {
+    background: #0d79d1;
+    color: #ffffff;
+    border-color: #0d79d1;
+    box-shadow: 0 4px 10px rgba(13, 121, 209, 0.2);
+}
+
+/* --- Grup Tombol Aksi --- */
+.mysika-button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.mysika-action-button {
+    background: #005f9b; /* Biru tua SIKA */
+    color: #FFFFFF;
+    border: none;
+    padding: 14px;
+    font-size: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+.mysika-action-button:hover {
+    background: #004a7c;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 95, 155, 0.2);
+}
+
+/* --- Footer --- */
+.mysika-footer {
+    padding: 12px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 500;
+    background: #f7fafc;
+    color: #718096;
+    border-top: 1px solid #e2e8f0;
+}
+.mysika-footer a {
+    color: #0d79d1;
+    text-decoration: none;
+    font-weight: 600;
+}
+.mysika-footer a:hover {
+    text-decoration: underline;
+}
