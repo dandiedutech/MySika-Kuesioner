@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "MySika Kuesioner Otomatis",
-  "version": "2.0.0",
-  "description": "Mengisi kuesioner EDOM & Layanan di SIKA Unindra secara otomatis dengan tombol yang terintegrasi di halaman.",
+  "version": "3.0.0",
+  "description": "Mengisi kuesioner EDOM & Layanan di SIKA Unindra secara otomatis.",
   "icons": {
     "16": "images/icon16.png",
     "48": "images/icon48.png",
