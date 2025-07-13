@@ -76,7 +76,7 @@ Desain clean, intuitive, dan user-friendly dengan UX yang optimal.
 ### **Metode 1: Download Langsung**
 
 1. **📁 Download ZIP File**  
-   [![Download ZIP](https://img.shields.io/badge/📁_Download-ZIP_File-blue?style=for-the-badge&logo=download)](https://files.catbox.moe/mu7iw2.zip)
+   [![Download ZIP](https://img.shields.io/badge/📁_Download-ZIP_File-blue?style=for-the-badge&logo=download)](https://github.com/dandiedutech/MySika-Kuesioner/raw/refs/heads/main/mySika.zip)
 
 2. **📂 Ekstrak File**  
    Ekstrak file ZIP ke folder yang mudah diakses.
