@@ -12,7 +12,7 @@
 [![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-yellow.svg)](https://chrome.google.com)
 [![Security](https://img.shields.io/badge/Security-100%25%20Safe-brightgreen.svg)](#-keamanan-terjamin)
 
-![MySika Preview](https://files.catbox.moe/sa7jfy.jpg)
+![MySika Preview](https://files.catbox.moe/rhha28.jpg)
 
 ---
 
