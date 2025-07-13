@@ -2,25 +2,7 @@
 
 Ekstensi Chrome tidak resmi untuk membantu mahasiswa Unindra mengisi kuesioner EDOM (Evaluasi Dosen oleh Mahasiswa) dan Layanan di portal SIKA dengan lebih cepat dan efisien.
 
-![Tangkapan Layar Ekstensi](https://files.catbox.moe/b4zdva.jpg)
-
-### 📂 Struktur File Proyek
-
-MySika-Kuesioner/
-│
-├── icons/
-│   ├── icon16.png
-│   ├── icon48.png
-│   └── icon128.png
-│
-├── manifest.json       # Konfigurasi inti ekstensi
-├── popup.html          # Struktur antarmuka popup
-├── popup.css           # Desain dan gaya antarmuka
-├── popup.js            # Fungsionalitas dan logika ekstensi
-│
-├── README.md           # File informasi ini
-└── screenshot.png      # Contoh gambar tangkapan layar
-
+![Screenshot](https://files.catbox.moe/b4zdva.jpg)
 
 ### ✅ Keamanan Terjamin
 
