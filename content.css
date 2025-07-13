@@ -5,7 +5,7 @@
 #mysika-fab {
     position: fixed;
     bottom: 30px;
-    right: 50px;
+    right: 30px;
     width: 64px;
     height: 64px;
     background: #0d79d1; /* Warna biru utama SIKA */
@@ -87,8 +87,8 @@
 .mysika-options-label {
     font-weight: 600;
     font-size: 14px;
-    margin-bottom: 15px;
-    text-align: center;
+    margin-bottom: 12px;
+    text-align: left;
     color: #4a5568;
 }
 
@@ -114,8 +114,9 @@
     cursor: pointer;
     transition: all 0.2s ease-in-out;
     text-align: center;
-    font-size: 10px;
-    font-weight: 600;
+    font-size: 9px; /* DIUBAH SESUAI PERMINTAAN */
+    font-weight: 700;
+    text-transform: uppercase;
 }
 .mysika-radio-option input[type="radio"]:checked + label {
     background: #0d79d1;
@@ -147,6 +148,15 @@
     box-shadow: 0 6px 15px rgba(0, 95, 155, 0.2);
 }
 
+/* Tombol Spesial */
+.mysika-action-button.special {
+    background: #1abc9c; /* Warna hijau/teal SIKA */
+}
+.mysika-action-button.special:hover {
+    background: #16a085;
+    box-shadow: 0 6px 15px rgba(22, 160, 133, 0.2);
+}
+
 /* --- Footer --- */
 .mysika-footer {
     padding: 12px;
@@ -164,4 +174,47 @@
 }
 .mysika-footer a:hover {
     text-decoration: underline;
+}
+
+/* --- Toast Notification --- */
+#mysika-toast {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    background-color: #2d3748;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s cubic-bezier(0.215, 0.610, 0.355, 1);
+}
+#mysika-toast.mysika-toast-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+#mysika-toast .mysika-toast-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
+    border-radius: 50%;
+    background-color: #4a90e2;
+    animation: mysika-pulse 2s infinite;
+}
+#mysika-toast.mysika-toast-success .mysika-toast-icon {
+    background-color: #1abc9c;
+    animation: none;
+}
+#mysika-toast.mysika-toast-error .mysika-toast-icon {
+    background-color: #e53e3e;
+    animation: none;
+}
+@keyframes mysika-pulse {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(74, 144, 226, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(74, 144, 226, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(74, 144, 226, 0); }
 }
