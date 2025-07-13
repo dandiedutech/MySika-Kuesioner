@@ -2,7 +2,7 @@
 
 # 🎓 MySika Kuesioner Otomatis v3.0
 
-### Ekstensi Chrome Level "Sakti" untuk Mahasiswa Unindra
+### Ekstensi Chrome untuk Mahasiswa Unindra
 
 *Mengisi semua kuesioner EDOM yang belum selesai secara berurutan hanya dengan satu kali klik*
 
@@ -96,7 +96,7 @@ MySika-Kuesioner/
 ### **Metode 1: Download Langsung**
 
 1. **📁 Download ZIP File**  
-   [![Download ZIP](https://img.shields.io/badge/📁_Download-ZIP_File-blue?style=for-the-badge&logo=download)](https://files.catbox.moe/mu7iw2.zip)
+   [![Download ZIP](https://img.shields.io/badge/📁_Download-ZIP_File-blue?style=for-the-badge&logo=download)]([https://files.catbox.moe/mu7iw2.zip](https://github.com/dandiedutech/MySika-Kuesioner/blob/main/mySika.zip))
 
 2. **📂 Ekstrak File**  
    Ekstrak file ZIP ke folder yang mudah diakses.
