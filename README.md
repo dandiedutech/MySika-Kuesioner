@@ -1,13 +1,13 @@
 <div align="center">
 
-# 🎓 MySika Kuesioner Otomatis
+# 🎓 MySika Kuesioner Otomatis v3.0
 
-### Ekstensi Chrome untuk Mahasiswa Unindra
+### Ekstensi Chrome Level "Sakti" untuk Mahasiswa Unindra
 
-*Automatisasi pengisian kuesioner EDOM & Layanan di portal SIKA dengan cepat dan efisien*
+*Mengisi semua kuesioner EDOM yang belum selesai secara berurutan hanya dengan satu kali klik*
 
 [![Made with Love](https://img.shields.io/badge/Made%20with-❤️-red.svg)](https://instagram.com/dandisubhani_)
-[![Version](https://img.shields.io/badge/Version-1.0.0-blue.svg)](https://github.com/dandiedutech/MySika-Kuesioner)
+[![Version](https://img.shields.io/badge/Version-3.0.0-blue.svg)](https://github.com/dandiedutech/MySika-Kuesioner)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-yellow.svg)](https://chrome.google.com)
 [![Security](https://img.shields.io/badge/Security-100%25%20Safe-brightgreen.svg)](#-keamanan-terjamin)
@@ -29,43 +29,63 @@
 ✅ Tidak menyimpan informasi login  
 ✅ Hanya menjalankan skrip pengisian formulir  
 ✅ Open source & transparan  
+✅ Kode sumber dapat diperiksa langsung  
 
 </div>
 
 ---
 
-## ✨ Fitur Unggulan
+## ✨ Fitur Unggulan (v3.0)
 
 <table>
 <tr>
 <td width="50%">
 
-### 🚀 **Otomatisasi Penuh**
-Mengisi semua pertanyaan pilihan ganda dalam hitungan detik dengan akurasi tinggi.
+### 🚀 **Isi Semua Sekaligus**
+Fitur andalan untuk mengisi seluruh kuesioner EDOM yang berstatus "Belum Selesai" secara otomatis dan berurutan hanya dengan satu klik.
 
-### 🎯 **Pilihan Penilaian Fleksibel**
-- **Sangat Baik**: Semua jawaban "Sangat Baik"
-- **Baik**: Semua jawaban "Baik"  
-- **Acak**: Kombinasi random "Sangat Baik" & "Baik"
+### ⚡ **Proses Super Cepat**
+Logika baru yang menghilangkan efek gulir untuk menyelesaikan pengisian dalam hitungan detik.
 
-### 💬 **Komentar Otomatis**
-Mengisi kolom kritik dan saran secara otomatis dengan template yang sesuai.
+### 🔔 **Notifikasi Modern**
+Pemberitahuan mengambang yang informatif akan muncul untuk setiap tahap proses, bukan lagi menggunakan alert yang mengganggu.
 
 </td>
 <td width="50%">
 
-### ⚡ **Konfirmasi Otomatis**
-Melewati popup "Apakah Anda yakin?" secara otomatis untuk proses yang lebih lancar.
+### 🎨 **Antarmuka Terintegrasi**
+Tombol mengambang yang elegan dan panel kontrol modern langsung di halaman SIKA.
 
-### 🎨 **Animasi Scrolling**
-Visual feedback yang smooth saat proses pengisian berlangsung.
+### ⚙️ **Pilihan Fleksibel**
+Tetap bisa memilih antara "Sangat Baik", "Baik", atau "Acak" untuk semua pengisian.
 
-### 🎨 **Antarmuka Modern**
-Desain clean, intuitive, dan user-friendly dengan UX yang optimal.
+### ✍️ **Pengisian Cerdas**
+Otomatis mengisi semua checkbox dan text area yang diperlukan di setiap formulir.
 
 </td>
 </tr>
 </table>
+
+---
+
+## 📂 Struktur File Proyek
+
+Struktur file telah disesuaikan untuk mendukung fungsionalitas pengisian berantai:
+
+```
+MySika-Kuesioner/
+│
+├── icons/
+│   ├── icon16.png
+│   ├── icon48.png
+│   └── icon128.png
+│
+├── manifest.json       # Konfigurasi inti ekstensi
+├── content.css         # Desain tombol & notifikasi mengambang
+├── content.js          # Logika utama (bisa diobfuscate)
+│     
+└── README.md  # File informasi ini 
+```
 
 ---
 
@@ -76,7 +96,7 @@ Desain clean, intuitive, dan user-friendly dengan UX yang optimal.
 ### **Metode 1: Download Langsung**
 
 1. **📁 Download ZIP File**  
-   [![Download ZIP](https://img.shields.io/badge/📁_Download-ZIP_File-blue?style=for-the-badge&logo=download)](https://github.com/dandiedutech/MySika-Kuesioner/raw/refs/heads/main/mySika.zip)
+   [![Download ZIP](https://img.shields.io/badge/📁_Download-ZIP_File-blue?style=for-the-badge&logo=download)](https://files.catbox.moe/mu7iw2.zip)
 
 2. **📂 Ekstrak File**  
    Ekstrak file ZIP ke folder yang mudah diakses.
@@ -91,7 +111,7 @@ Desain clean, intuitive, dan user-friendly dengan UX yang optimal.
    Klik **"Load unpacked"** dan pilih folder hasil ekstrak.
 
 6. **🎉 Instalasi Selesai!**  
-   Tombol MySika akan muncul mengambang di pojok kanan bawah halaman.
+   Ekstensi akan aktif secara otomatis di halaman kuesioner SIKA.
 
 ### **Metode 2: Clone Repository**
 
@@ -108,17 +128,30 @@ Lalu ikuti langkah 3-6 dari metode 1.
 
 <div align="center">
 
-### **Panduan Step-by-Step**
+### **🚀 Mengisi Semua EDOM Sekaligus (Cara Cepat)**
 
 </div>
 
 | Step | Aksi | Deskripsi |
 |------|------|-----------|
-| **1** | 🌐 **Buka Portal SIKA** | Login ke portal SIKA Unindra dan navigasi ke halaman Kuesioner |
-| **2** | 🔧 **Klik Tombol Mengambang** | Klik tombol MySika yang mengambang di pojok kanan bawah (pastikan sudah di halaman kuesioner) |
-| **3** | ⚙️ **Pilih Opsi** | Tentukan jenis penilaian: Sangat Baik, Baik, atau Acak |
-| **4** | 🎯 **Pilih Jenis Kuesioner** | Klik "Isi Kuesioner EDOM" atau "Isi Kuesioner Layanan" |
-| **5** | ✨ **Enjoy the Magic!** | Duduk santai dan lihat formulir terisi otomatis |
+| **1** | 🌐 **Buka Halaman Kuesioner** | Login ke portal SIKA dan buka halaman Kuesioner yang menampilkan daftar mata kuliah |
+| **2** | 🔵 **Klik Tombol Mengambang** | Klik tombol biru mengambang di pojok kanan bawah |
+| **3** | ⚙️ **Pilih Opsi Penilaian** | Tentukan jenis penilaian: Sangat Baik, Baik, atau Acak |
+| **4** | 🎯 **Klik "Isi Semua EDOM"** | Klik tombol **"Isi Semua EDOM Sekaligus"** |
+| **5** | ✨ **Enjoy the Magic!** | Duduk dan saksikan ekstensi bekerja otomatis dengan notifikasi real-time |
+
+<div align="center">
+
+### **📋 Mengisi Form Layanan**
+
+</div>
+
+| Step | Aksi | Deskripsi |
+|------|------|-----------|
+| **1** | 🌐 **Masuk ke Tab Layanan** | Navigasi ke tab Layanan di halaman Kuesioner |
+| **2** | 🔵 **Klik Tombol Mengambang** | Klik tombol biru mengambang di pojok kanan bawah |
+| **3** | ⚙️ **Pilih Opsi Penilaian** | Tentukan jenis penilaian yang diinginkan |
+| **4** | 🎯 **Klik "Isi Form Layanan"** | Klik tombol **"Isi Form Layanan Saat Ini"** |
 
 ---
 
@@ -132,7 +165,7 @@ Lalu ikuti langkah 3-6 dari metode 1.
 |---------|---------|
 | ![Before](https://files.catbox.moe/7s6pam.jpg) | ![After](https://files.catbox.moe/rhha28.jpg) |
 
-*Dari mengisi manual 5+ menit → menjadi hanya 15 detik!*
+*Dari mengisi manual puluhan kuesioner → menjadi hanya satu klik untuk semua!*
 
 </div>
 
@@ -141,20 +174,12 @@ Lalu ikuti langkah 3-6 dari metode 1.
 ## 🔧 Troubleshooting
 
 <details>
-<summary><strong>❓ Ekstensi tidak muncul di toolbar</strong></summary>
+<summary><strong>❓ Tombol mengambang tidak muncul</strong></summary>
 
 - Pastikan ekstensi sudah di-load dengan benar
 - Refresh halaman SIKA
 - Cek apakah Developer mode sudah aktif
-
-</details>
-
-<details>
-<summary><strong>❓ Tombol tidak berfungsi</strong></summary>
-
-- Pastikan Anda sudah login ke portal SIKA
 - Pastikan berada di halaman kuesioner yang benar
-- Coba refresh halaman dan ulangi
 
 </details>
 
@@ -163,9 +188,29 @@ Lalu ikuti langkah 3-6 dari metode 1.
 
 - Jangan scroll atau klik area lain saat proses berjalan
 - Pastikan koneksi internet stabil
-- Tunggu hingga animasi selesai
+- Tunggu hingga notifikasi "Selesai!" muncul
+- Jika ada error, coba refresh dan ulangi
 
 </details>
+
+<details>
+<summary><strong>❓ Notifikasi tidak muncul</strong></summary>
+
+- Pastikan tidak ada popup blocker yang aktif
+- Coba disable ekstensi lain yang mungkin konflik
+- Refresh halaman dan coba lagi
+
+</details>
+
+---
+
+## 🆕 What's New in v3.0
+
+- ✅ **Pengisian Massal**: Isi semua kuesioner EDOM sekaligus
+- ✅ **Notifikasi Real-time**: Tracking progress dengan notifikasi modern
+- ✅ **Performa Optimal**: Logika baru tanpa scrolling untuk kecepatan maksimal
+- ✅ **UI/UX Improved**: Antarmuka yang lebih elegan dan terintegrasi
+- ✅ **Error Handling**: Penanganan error yang lebih baik
 
 ---
 
@@ -175,8 +220,9 @@ Lalu ikuti langkah 3-6 dari metode 1.
 - [ ] 📊 Statistics dashboard
 - [ ] 🎨 Multiple themes
 - [ ] 📱 Mobile version support
-- [ ] 🔔 Notification system
+- [ ] 🔔 Advanced notification system
 - [ ] 🌐 Multi-language support
+- [ ] 📈 Progress analytics
 
 ---
 
