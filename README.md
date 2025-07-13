@@ -2,7 +2,7 @@
 
 Ekstensi Chrome tidak resmi untuk membantu mahasiswa Unindra mengisi kuesioner EDOM (Evaluasi Dosen oleh Mahasiswa) dan Layanan di portal SIKA dengan lebih cepat dan efisien.
 
-![Screenshot](https://files.catbox.moe/b4zdva.jpg)
+![Screenshot](ttps://files.catbox.moe/sa7jfy.jpg)
 
 ### ✅ Keamanan Terjamin
 
