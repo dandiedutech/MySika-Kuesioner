@@ -96,7 +96,7 @@ MySika-Kuesioner/
 ### **Metode 1: Download Langsung**
 
 1. **📁 Download ZIP File**  
-   [![Download ZIP](https://img.shields.io/badge/📁_Download-ZIP_File-blue?style=for-the-badge&logo=download)]([https://github.com/dandiedutech/MySika-Kuesioner/blob/main/mySika.zip](https://github.com/dandiedutech/MySika-Kuesioner/blob/main/mySika.zip))
+   [![Download ZIP](https://img.shields.io/badge/📁_Download-ZIP_File-blue?style=for-the-badge&logo=download)](https://github.com/dandiedutech/MySika-Kuesioner/blob/main/mySika.zip)
 
 2. **📂 Ekstrak File**  
    Ekstrak file ZIP ke folder yang mudah diakses.
