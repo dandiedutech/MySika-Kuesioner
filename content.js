@@ -1,5 +1,5 @@
 // ===================================================================================
-// MySika Kuesioner Otomatis v3.0
+// MySika Kuesioner Otomatis v3.3 - Tombol Aksi Terpisah
 // ===================================================================================
 
 /**
@@ -41,7 +41,7 @@ async function fillCurrentForm(ratingOption) {
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
     const isEdomForm = document.querySelector('button.button.is-success');
     const isLayananForm = document.querySelector('button.btn-simpan.is-primary');
-    const formType = isEdomForm ? 'edom' : 'layanan';
+    const formType = isEdomForm ? 'EDOM' : 'Layanan';
 
     showToast(`Mengisi kuesioner ${formType}...`, 'info', 4000);
 
@@ -139,7 +139,8 @@ function createFloatingUI() {
             </div>
             <div class="mysika-options-label">2. Pilih Aksi</div>
             <div class="mysika-button-group">
-                <button id="mysika-fill-current-form" class="mysika-action-button special">Isi Form Saat Ini</button>
+                <button id="mysika-fill-edom" class="mysika-action-button special">Isi Form EDOM</button>
+                <button id="mysika-fill-layanan" class="mysika-action-button">Isi Form Layanan</button>
             </div>
         </div>
         <div class="mysika-footer">
@@ -155,17 +156,26 @@ function createFloatingUI() {
         fab.classList.toggle('mysika-fab-active');
     });
 
-    document.getElementById('mysika-fill-current-form').addEventListener('click', () => {
-        const isFormPage = document.querySelector('.soal-kuesioner-table');
-        if (isFormPage) {
+    const handleFill = (formType) => {
+        const isEdomPage = document.querySelector('button.button.is-success');
+        const isLayananPage = document.querySelector('button.btn-simpan.is-primary');
+
+        if (formType === 'edom' && isEdomPage) {
             const rating = document.querySelector('input[name="mysika-rating"]:checked').value;
             fillCurrentForm(rating);
-            panel.classList.add('mysika-hidden');
-            fab.classList.remove('mysika-fab-active');
+        } else if (formType === 'layanan' && isLayananPage) {
+            const rating = document.querySelector('input[name="mysika-rating"]:checked').value;
+            fillCurrentForm(rating);
         } else {
-            showToast('Buka halaman pengisian kuesioner terlebih dahulu!', 'error', 4000);
+            showToast(`Buka halaman kuesioner ${formType} terlebih dahulu!`, 'error', 4000);
+            return;
         }
-    });
+        panel.classList.add('mysika-hidden');
+        fab.classList.remove('mysika-fab-active');
+    };
+
+    document.getElementById('mysika-fill-edom').addEventListener('click', () => handleFill('edom'));
+    document.getElementById('mysika-fill-layanan').addEventListener('click', () => handleFill('layanan'));
 }
 
 // --- LOGIKA UTAMA SAAT HALAMAN DIMUAT ---
