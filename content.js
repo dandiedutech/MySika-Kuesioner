@@ -1,12 +1,12 @@
 // ===================================================================================
-// MySika Kuesioner Otomatis v3.1 - Perbaikan Bug & Peningkatan Stabilitas
+// MySika Kuesioner Otomatis v3.0
 // ===================================================================================
 
 /**
  * Menampilkan notifikasi mengambang (toast) di pojok kanan bawah.
  * @param {string} message - Pesan yang akan ditampilkan.
  * @param {string} type - Tipe notifikasi: 'info', 'success', atau 'error'.
- * @param {number} duration - Durasi dalam milidetik. 0 berarti tidak hilang otomatis.
+ * @param {number} duration - Durasi dalam milidetik.
  */
 function showToast(message, type = 'info', duration = 3000) {
     const existingToast = document.getElementById('mysika-toast');
@@ -34,41 +34,16 @@ function showToast(message, type = 'info', duration = 3000) {
 }
 
 /**
- * Menunggu sebuah elemen muncul di halaman sebelum menjalankan fungsi callback.
- * @param {string} selector - Selector CSS dari elemen yang ditunggu.
- * @param {function} callback - Fungsi yang akan dijalankan setelah elemen ditemukan.
- * @param {number} timeout - Waktu maksimal menunggu dalam milidetik.
- */
-function waitForElement(selector, callback, timeout = 10000) {
-    const intervalTime = 100;
-    let timeWaited = 0;
-
-    const interval = setInterval(() => {
-        const element = document.querySelector(selector);
-        if (element) {
-            clearInterval(interval);
-            callback();
-        } else {
-            timeWaited += intervalTime;
-            if (timeWaited >= timeout) {
-                clearInterval(interval);
-                showToast('Gagal memuat elemen halaman. Coba lagi.', 'error', 5000);
-                sessionStorage.clear(); // Hentikan semua proses
-            }
-        }
-    }, intervalTime);
-}
-
-
-/**
- * Fungsi untuk mengisi satu form kuesioner dengan cepat (tanpa scrolling).
+ * Fungsi untuk mengisi satu form kuesioner yang sedang aktif.
  * @param {string} ratingOption - Pilihan penilaian ('sangat-baik', 'baik', 'acak').
  */
-async function fillSingleForm(ratingOption) {
+async function fillCurrentForm(ratingOption) {
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-    const formType = document.querySelector('button.btn-simpan.is-primary') ? 'layanan' : 'edom';
-    
-    showToast(`Mengisi kuesioner...`, 'info', 0);
+    const isEdomForm = document.querySelector('button.button.is-success');
+    const isLayananForm = document.querySelector('button.btn-simpan.is-primary');
+    const formType = isEdomForm ? 'edom' : 'layanan';
+
+    showToast(`Mengisi kuesioner ${formType}...`, 'info', 4000);
 
     try {
         const allRows = document.querySelectorAll('.soal-kuesioner-table tbody tr');
@@ -86,7 +61,7 @@ async function fillSingleForm(ratingOption) {
 
             if (radioToClick) {
                 radioToClick.click();
-                await sleep(10); // Jeda sangat singkat untuk stabilitas
+                await sleep(10); // Jeda singkat untuk stabilitas
             }
         }
 
@@ -98,12 +73,12 @@ async function fillSingleForm(ratingOption) {
         }
         
         // Mengisi pertanyaan "Ya" khusus di EDOM
-        if (formType === 'edom') {
+        if (isEdomForm) {
             const radioYa = document.querySelector('input[type="radio"][value="Y"]');
             if (radioYa) radioYa.click();
         }
 
-        const finishButton = document.querySelector(formType === 'edom' ? 'button.button.is-success' : 'button.btn-simpan.is-primary');
+        const finishButton = isEdomForm ? isEdomForm : isLayananForm;
         
         if (finishButton) {
             await sleep(250); // Jeda singkat sebelum menyimpan
@@ -114,58 +89,14 @@ async function fillSingleForm(ratingOption) {
             if (activeModal) {
                 const confirmButton = activeModal.querySelector('button.is-success') || Array.from(activeModal.querySelectorAll('button')).find(btn => btn.innerText.trim() === 'Ya, selesai');
                 if (confirmButton) {
-                    showToast('Menyimpan dan kembali...', 'info', 0);
+                    showToast('Menyimpan formulir...', 'success', 2000);
                     confirmButton.click();
-                    // Set flag untuk menandakan kita akan kembali ke halaman daftar
-                    setTimeout(() => {
-                        sessionStorage.setItem('mysika_return_from_fill', 'true');
-                        window.location.href = '/kuesioner';
-                    }, 500);
                 }
             }
         }
+        showToast('Pengisian selesai!', 'success', 3000);
     } catch (error) {
         showToast('Terjadi kesalahan: ' + error.message, 'error', 5000);
-        sessionStorage.removeItem('mysika_process_all_edom');
-    }
-}
-
-/**
- * Memulai dan melanjutkan proses pengisian semua EDOM.
- */
-async function processAllEdoms() {
-    const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-    const ratingOption = sessionStorage.getItem('mysika_rating_option');
-    if (!ratingOption) {
-        showToast('Opsi penilaian tidak ditemukan!', 'error');
-        return;
-    }
-
-    await sleep(500); // Beri waktu halaman untuk memuat
-
-    const tableRows = document.querySelectorAll('.b-table .table tbody tr');
-    let nextButton = null;
-
-    for (const row of tableRows) {
-        const statusIcon = row.querySelector('.mdi-minus-circle'); // Icon "belum selesai"
-        if (statusIcon) {
-            const buttonElement = row.querySelector('button span:last-child');
-            if (buttonElement && buttonElement.innerText.trim() === 'Jawab') {
-                nextButton = buttonElement.closest('button');
-                break;
-            }
-        }
-    }
-
-    if (nextButton) {
-        const matkul = nextButton.closest('tr').querySelector('td[data-label="Mata Kuliah"]').innerText;
-        showToast(`Memproses: ${matkul.trim()}...`, 'info', 2000);
-        await sleep(1000);
-        nextButton.click();
-    } else {
-        showToast('Selesai! Semua kuesioner EDOM telah diisi.', 'success', 5000);
-        sessionStorage.removeItem('mysika_process_all_edom');
-        sessionStorage.removeItem('mysika_rating_option');
     }
 }
 
@@ -204,8 +135,7 @@ function createFloatingUI() {
             </div>
             <div class="mysika-options-label">2. Pilih Aksi</div>
             <div class="mysika-button-group">
-                <button id="mysika-fill-all-edom" class="mysika-action-button special">Isi Semua EDOM Sekaligus</button>
-                <button id="mysika-fill-layanan" class="mysika-action-button">Isi Form Layanan Saat Ini</button>
+                <button id="mysika-fill-current-form" class="mysika-action-button special">Isi Form Saat Ini</button>
             </div>
         </div>
         <div class="mysika-footer">
@@ -221,28 +151,15 @@ function createFloatingUI() {
         fab.classList.toggle('mysika-fab-active');
     });
 
-    document.getElementById('mysika-fill-all-edom').addEventListener('click', () => {
-        const uncompleted = document.querySelectorAll('.b-table .table tbody tr .mdi-minus-circle');
-        if (uncompleted.length === 0) {
-            showToast('Semua kuesioner EDOM sudah terisi.', 'success');
-            return;
-        }
-
-        const rating = document.querySelector('input[name="mysika-rating"]:checked').value;
-        sessionStorage.setItem('mysika_process_all_edom', 'true');
-        sessionStorage.setItem('mysika_rating_option', rating);
-        panel.classList.add('mysika-hidden');
-        fab.classList.remove('mysika-fab-active');
-        processAllEdoms();
-    });
-
-    document.getElementById('mysika-fill-layanan').addEventListener('click', () => {
-        const isLayananForm = document.querySelector('.soal-kuesioner-table') && document.querySelector('button.btn-simpan.is-primary');
-        if (isLayananForm) {
+    document.getElementById('mysika-fill-current-form').addEventListener('click', () => {
+        const isFormPage = document.querySelector('.soal-kuesioner-table');
+        if (isFormPage) {
             const rating = document.querySelector('input[name="mysika-rating"]:checked').value;
-            fillSingleForm(rating);
+            fillCurrentForm(rating);
+            panel.classList.add('mysika-hidden');
+            fab.classList.remove('mysika-fab-active');
         } else {
-            showToast('Buka tab "Layanan" lalu isi formnya terlebih dahulu.', 'error', 4000);
+            showToast('Buka halaman pengisian kuesioner terlebih dahulu!', 'error', 4000);
         }
     });
 }
@@ -250,24 +167,4 @@ function createFloatingUI() {
 // --- LOGIKA UTAMA SAAT HALAMAN DIMUAT ---
 window.addEventListener('load', () => {
     createFloatingUI();
-
-    const isProcessingAll = sessionStorage.getItem('mysika_process_all_edom') === 'true';
-    const cameFromFill = sessionStorage.getItem('mysika_return_from_fill') === 'true';
-    const ratingOption = sessionStorage.getItem('mysika_rating_option');
-
-    if (isProcessingAll) {
-        // Jika kita berada di halaman pengisian
-        if (window.location.href.includes('makul_kuesioner_proses_pembelajaran')) {
-            waitForElement('.soal-kuesioner-table', () => {
-                fillSingleForm(ratingOption);
-            });
-        }
-        // Jika kita baru saja kembali ke halaman daftar
-        else if (cameFromFill) {
-            sessionStorage.removeItem('mysika_return_from_fill');
-            waitForElement('.b-table', () => {
-                processAllEdoms();
-            });
-        }
-    }
 });
