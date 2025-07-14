@@ -1,5 +1,5 @@
 // ===================================================================================
-// MySika Kuesioner Otomatis v3.0
+// MySika Kuesioner Otomatis v3.1
 // ===================================================================================
 
 /**
@@ -43,19 +43,20 @@ async function fillCurrentForm(ratingOption) {
     const isLayananForm = document.querySelector('button.btn-simpan.is-primary');
     const formType = isEdomForm ? 'EDOM' : 'Layanan';
 
-    showToast(`Mengisi kuesioner ${formType}...`, 'info', 4000);
+    // Tidak menampilkan toast di sini agar tidak tumpang tindih dengan toast dari fungsi sekuensial
+    // showToast(`Mengisi kuesioner ${formType}...`, 'info', 4000);
 
     try {
         const allRows = document.querySelectorAll('.soal-kuesioner-table tbody tr');
         for (const row of allRows) {
             let radioToClick = null;
             if (ratingOption === 'sangat-baik') {
-                radioToClick = row.querySelector('td:nth-child(3) input[type="radio"][value="1"]');
+                radioToClick = row.querySelector('td:nth-child(3) input[type="radio"]'); // Ambil radio pertama yang bisa diklik
             } else if (ratingOption === 'baik') {
-                radioToClick = row.querySelector('td:nth-child(4) input[type="radio"][value="2"]');
+                radioToClick = row.querySelector('td:nth-child(4) input[type="radio"]'); // Ambil radio kedua
             } else if (ratingOption === 'acak') {
                 const choice = Math.random() < 0.7 ? 'sangat-baik' : 'baik';
-                const selector = choice === 'sangat-baik' ? 'td:nth-child(3) input[type="radio"][value="1"]' : 'td:nth-child(4) input[type="radio"][value="2"]';
+                const selector = choice === 'sangat-baik' ? 'td:nth-child(3) input[type="radio"]' : 'td:nth-child(4) input[type="radio"]';
                 radioToClick = row.querySelector(selector);
             }
 
@@ -93,16 +94,57 @@ async function fillCurrentForm(ratingOption) {
             if (activeModal) {
                 const confirmButton = activeModal.querySelector('button.is-success') || Array.from(activeModal.querySelectorAll('button')).find(btn => btn.innerText.trim() === 'Ya, selesai');
                 if (confirmButton) {
-                    showToast('Menyimpan formulir...', 'success', 2000);
+                    // showToast('Menyimpan formulir...', 'success', 2000); // Dihilangkan agar tidak berlebihan
                     confirmButton.click();
                 }
             }
         }
-        showToast('Pengisian selesai!', 'success', 3000);
+        // showToast('Pengisian selesai!', 'success', 3000); // Dihilangkan
     } catch (error) {
         showToast('Terjadi kesalahan: ' + error.message, 'error', 5000);
     }
 }
+
+
+/**
+ * Fungsi BARU untuk menemukan dan mengisi semua kuesioner EDOM secara berurutan.
+ * @param {string} ratingOption - Pilihan penilaian.
+ */
+async function fillAllEdomSequentially(ratingOption) {
+    const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+    const jawabButtons = Array.from(document.querySelectorAll('td[data-label="Aksi"] button')).filter(btn => btn.innerText.trim().includes('Jawab'));
+
+    if (jawabButtons.length === 0) {
+        showToast('Tidak ada kuesioner EDOM yang perlu diisi.', 'info', 4000);
+        return;
+    }
+
+    showToast(`Ditemukan ${jawabButtons.length} kuesioner EDOM. Memulai pengisian otomatis...`, 'info', 5000);
+    await sleep(2000);
+
+    for (let i = 0; i < jawabButtons.length; i++) {
+        // Selalu cari ulang tombol "Jawab" di setiap iterasi karena halaman di-reload
+        const currentJawabButtons = Array.from(document.querySelectorAll('td[data-label="Aksi"] button')).filter(btn => btn.innerText.trim().includes('Jawab'));
+        const buttonToClick = currentJawabButtons[0]; // Ambil tombol "Jawab" pertama yang tersisa
+
+        if (!buttonToClick) {
+            showToast('Tidak dapat menemukan tombol "Jawab" berikutnya.', 'error', 4000);
+            break; 
+        }
+
+        const matkul = buttonToClick.closest('tr').querySelector('td[data-label="Mata Kuliah"]').innerText;
+        showToast(`(${i + 1}/${jawabButtons.length}) Mengisi: ${matkul}`, 'info', 4000);
+
+        buttonToClick.click();
+        await sleep(2500); // Tunggu halaman form kuesioner dimuat
+
+        await fillCurrentForm(ratingOption);
+        await sleep(3000); // Tunggu halaman kembali ke daftar kuesioner
+    }
+
+    showToast('Semua kuesioner EDOM telah selesai diisi!', 'success', 5000);
+}
+
 
 /**
  * Membuat UI tombol mengambang.
@@ -119,7 +161,7 @@ function createFloatingUI() {
     panel.innerHTML = `
         <div class="mysika-header">
             <div class="mysika-title">MySika Kuesioner</div>
-            <div class="mysika-subtitle">Otomatisasi Pengisian</div>
+            <div class="mysika-subtitle">Otomatisasi Pengisian v3.1</div>
         </div>
         <div class="mysika-content">
             <div class="mysika-options-label">1. Pilih Opsi Penilaian</div>
@@ -139,7 +181,7 @@ function createFloatingUI() {
             </div>
             <div class="mysika-options-label">2. Pilih Aksi</div>
             <div class="mysika-button-group">
-                <button id="mysika-fill-edom" class="mysika-action-button special">Isi Form EDOM</button>
+                <button id="mysika-fill-edom" class="mysika-action-button special">Isi Semua EDOM</button>
                 <button id="mysika-fill-layanan" class="mysika-action-button">Isi Form Layanan</button>
             </div>
         </div>
@@ -156,22 +198,34 @@ function createFloatingUI() {
         fab.classList.toggle('mysika-fab-active');
     });
 
-    const handleFill = (formType) => {
-        const isEdomPage = document.querySelector('button.button.is-success');
+    const handleFill = async (formType) => {
+        const rating = document.querySelector('input[name="mysika-rating"]:checked').value;
+        const isEdomListPage = document.querySelector('td[data-label="Aksi"] button');
+        const isEdomFormPage = document.querySelector('button.button.is-success');
         const isLayananPage = document.querySelector('button.btn-simpan.is-primary');
 
-        if (formType === 'edom' && isEdomPage) {
-            const rating = document.querySelector('input[name="mysika-rating"]:checked').value;
-            fillCurrentForm(rating);
-        } else if (formType === 'layanan' && isLayananPage) {
-            const rating = document.querySelector('input[name="mysika-rating"]:checked').value;
-            fillCurrentForm(rating);
-        } else {
-            showToast(`Buka halaman kuesioner ${formType} terlebih dahulu!`, 'error', 4000);
-            return;
-        }
         panel.classList.add('mysika-hidden');
         fab.classList.remove('mysika-fab-active');
+
+        if (formType === 'edom') {
+            const jawabButtons = Array.from(document.querySelectorAll('td[data-label="Aksi"] button')).filter(btn => btn.innerText.trim().includes('Jawab'));
+            
+            if (jawabButtons.length > 0) {
+                // Jika ada tombol "Jawab", kita berada di halaman list. Jalankan pengisian sekuensial.
+                await fillAllEdomSequentially(rating);
+            } else if (isEdomFormPage) {
+                // Jika tidak ada tombol "Jawab" tapi ada tombol "Selesai", kita di halaman form. Isi form saat ini.
+                await fillCurrentForm(rating);
+            } else {
+                showToast('Buka halaman kuesioner EDOM terlebih dahulu!', 'error', 4000);
+            }
+        } else if (formType === 'layanan') {
+            if (isLayananPage) {
+                await fillCurrentForm(rating);
+            } else {
+                showToast('Buka halaman kuesioner Layanan terlebih dahulu!', 'error', 4000);
+            }
+        }
     };
 
     document.getElementById('mysika-fill-edom').addEventListener('click', () => handleFill('edom'));
@@ -180,5 +234,6 @@ function createFloatingUI() {
 
 // --- LOGIKA UTAMA SAAT HALAMAN DIMUAT ---
 window.addEventListener('load', () => {
-    createFloatingUI();
+    // Tambahkan sedikit jeda untuk memastikan semua elemen halaman sudah siap
+    setTimeout(createFloatingUI, 500);
 });
