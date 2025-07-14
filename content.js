@@ -46,18 +46,17 @@ async function fillCurrentForm(ratingOption) {
     showToast(`Mengisi kuesioner ${formType}...`, 'info', 4000);
 
     try {
-        const allRows = document.querySelectorAll('.soal-kuesioner-table tbody tr, .aspek-soal');
+        const allRows = document.querySelectorAll('.soal-kuesioner-table tbody tr');
         for (const row of allRows) {
             let radioToClick = null;
             if (ratingOption === 'sangat-baik') {
-                radioToClick = row.querySelector('input[type="radio"][value="1"], input[type="radio"][value="Sangat Baik"]');
+                radioToClick = row.querySelector('td:nth-child(3) input[type="radio"][value="1"]');
             } else if (ratingOption === 'baik') {
-                radioToClick = row.querySelector('input[type="radio"][value="2"], input[type="radio"][value="Baik"]');
+                radioToClick = row.querySelector('td:nth-child(4) input[type="radio"][value="2"]');
             } else if (ratingOption === 'acak') {
                 const choice = Math.random() < 0.7 ? 'sangat-baik' : 'baik';
-                const valueSelector = choice === 'sangat-baik' ? '1' : '2';
-                const textSelector = choice === 'sangat-baik' ? '"Sangat Baik"' : '"Baik"';
-                radioToClick = row.querySelector(`input[type="radio"][value="${valueSelector}"], input[type="radio"][value=${textSelector}]`);
+                const selector = choice === 'sangat-baik' ? 'td:nth-child(3) input[type="radio"][value="1"]' : 'td:nth-child(4) input[type="radio"][value="2"]';
+                radioToClick = row.querySelector(selector);
             }
 
             if (radioToClick) {
@@ -82,9 +81,9 @@ async function fillCurrentForm(ratingOption) {
                 textarea.dispatchEvent(new Event('input', { bubbles: true }));
             }
         }
-
+        
         const finishButton = isEdomForm ? isEdomForm : isLayananForm;
-
+        
         if (finishButton) {
             await sleep(250); // Jeda singkat sebelum menyimpan
             finishButton.click();
@@ -98,45 +97,12 @@ async function fillCurrentForm(ratingOption) {
                     confirmButton.click();
                 }
             }
-        } else {
-             showToast('Tombol Selesai/Simpan tidak ditemukan.', 'error', 4000);
         }
+        showToast('Pengisian selesai!', 'success', 3000);
     } catch (error) {
         showToast('Terjadi kesalahan: ' + error.message, 'error', 5000);
-        sessionStorage.removeItem('mysikaAutofill'); // Hentikan mode otomatis jika ada error
     }
 }
-
-/**
- * Memulai proses pengisian semua kuesioner yang belum dijawab.
- */
-function startFillingAll() {
-    // Cek apakah kita di halaman daftar kuesioner EDOM
-    const isEdomListPage = document.querySelector('.b-tabs .b-table');
-    if (!isEdomListPage) {
-        showToast('Buka halaman daftar kuesioner EDOM terlebih dahulu!', 'error', 4000);
-        return;
-    }
-
-    const unansweredButtons = Array.from(document.querySelectorAll('button')).filter(btn => btn.innerText.trim().toLowerCase() === 'jawab');
-
-    if (unansweredButtons.length === 0) {
-        showToast('Tidak ada kuesioner yang perlu diisi.', 'info');
-        return;
-    }
-
-    const rating = document.querySelector('input[name="mysika-rating"]:checked').value;
-
-    // Simpan status ke sessionStorage untuk persistensi antar halaman
-    sessionStorage.setItem('mysikaAutofill', JSON.stringify({
-        isRunning: true,
-        rating: rating
-    }));
-
-    showToast(`Memulai pengisian otomatis untuk ${unansweredButtons.length} kuesioner.`, 'info');
-    unansweredButtons[0].click(); // Klik tombol "Jawab" yang pertama
-}
-
 
 /**
  * Membuat UI tombol mengambang.
@@ -145,7 +111,7 @@ function createFloatingUI() {
     const fab = document.createElement('div');
     fab.id = 'mysika-fab';
     fab.innerHTML = `<img src="${chrome.runtime.getURL("images/icon48.png")}" alt="MySika">`;
-
+    
     const panel = document.createElement('div');
     panel.id = 'mysika-panel';
     panel.classList.add('mysika-hidden');
@@ -173,8 +139,7 @@ function createFloatingUI() {
             </div>
             <div class="mysika-options-label">2. Pilih Aksi</div>
             <div class="mysika-button-group">
-                <button id="mysika-fill-current-form" class="mysika-action-button">Isi Form Saat Ini</button>
-                <button id="mysika-fill-all" class="mysika-action-button special">Isi Semua yg Belum</button>
+                <button id="mysika-fill-current-form" class="mysika-action-button special">Isi Form Saat Ini</button>
             </div>
         </div>
         <div class="mysika-footer">
@@ -191,7 +156,7 @@ function createFloatingUI() {
     });
 
     document.getElementById('mysika-fill-current-form').addEventListener('click', () => {
-        const isFormPage = document.querySelector('.soal-kuesioner-table, .aspek-soal');
+        const isFormPage = document.querySelector('.soal-kuesioner-table');
         if (isFormPage) {
             const rating = document.querySelector('input[name="mysika-rating"]:checked').value;
             fillCurrentForm(rating);
@@ -201,53 +166,9 @@ function createFloatingUI() {
             showToast('Buka halaman pengisian kuesioner terlebih dahulu!', 'error', 4000);
         }
     });
-
-    document.getElementById('mysika-fill-all').addEventListener('click', () => {
-        startFillingAll();
-        panel.classList.add('mysika-hidden');
-        fab.classList.remove('mysika-fab-active');
-    });
 }
 
 // --- LOGIKA UTAMA SAAT HALAMAN DIMUAT ---
-window.addEventListener('load', async () => {
-    // Cek apakah mode otomatis sedang berjalan
-    const autofillDataString = sessionStorage.getItem('mysikaAutofill');
-
-    if (autofillDataString) {
-        const autofillData = JSON.parse(autofillDataString);
-        if (autofillData.isRunning) {
-            const isFormPage = document.querySelector('.soal-kuesioner-table, .aspek-soal');
-            const isListPage = document.querySelector('.b-tabs .b-table');
-
-            if (isFormPage) {
-                // Jika kita di halaman formulir, isi formulirnya
-                showToast('Mode Otomatis: Mengisi formulir...', 'info', 2000);
-                await fillCurrentForm(autofillData.rating);
-            } else if (isListPage) {
-                // Jika kita kembali ke halaman daftar, cari kuesioner berikutnya
-                await new Promise(resolve => setTimeout(resolve, 1000)); // Beri waktu halaman untuk memuat sepenuhnya
-                const unansweredButtons = Array.from(document.querySelectorAll('button')).filter(btn => btn.innerText.trim().toLowerCase() === 'jawab');
-                
-                if (unansweredButtons.length > 0) {
-                    showToast(`Mode Otomatis: Melanjutkan ke kuesioner berikutnya... (${unansweredButtons.length} tersisa)`, 'info', 3000);
-                    unansweredButtons[0].click();
-                } else {
-                    // Selesai
-                    showToast('Semua kuesioner telah berhasil diisi!', 'success', 5000);
-                    sessionStorage.removeItem('mysikaAutofill');
-                    createFloatingUI(); // Tampilkan UI lagi setelah selesai
-                }
-            } else {
-                 // Berada di halaman yang tidak terduga, hentikan proses
-                 showToast('Mode otomatis dihentikan: Halaman tidak dikenali.', 'error', 5000);
-                 sessionStorage.removeItem('mysikaAutofill');
-                 createFloatingUI();
-            }
-            return; // Hentikan eksekusi lebih lanjut agar UI normal tidak muncul selama mode otomatis
-        }
-    }
-    
-    // Jika tidak dalam mode otomatis, tampilkan UI seperti biasa.
+window.addEventListener('load', () => {
     createFloatingUI();
 });
